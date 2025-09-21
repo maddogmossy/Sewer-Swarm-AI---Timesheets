@@ -1,47 +1,22 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import A1 from "./pages/A1";
+import SW1 from "./pages/SW1";
+import OW1 from "./pages/OW1";
+import M1 from "./pages/M1";
 
-export default function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState("");
-
-  async function handleLogin(e) {
-    e.preventDefault();
-    const res = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (data.error) setMsg(data.error);
-    else {
-      localStorage.setItem("token", data.token);
-      setMsg(`Welcome ${data.user.name} (${data.user.role})`);
-    }
-  }
-
+function App() {
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow w-80">
-        <h1 className="text-xl mb-4">Swarm Timesheets</h1>
-        <input
-          className="border p-2 w-full mb-2"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e)=>setEmail(e.target.value)}
-        />
-        <input
-          className="border p-2 w-full mb-2"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e)=>setPassword(e.target.value)}
-        />
-        <button className="bg-blue-500 text-white px-4 py-2 rounded w-full">
-          Login
-        </button>
-        {msg && <p className="mt-2 text-sm text-red-600">{msg}</p>}
-      </form>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/A1" element={<A1 />} />
+        <Route path="/SW1" element={<SW1 />} />
+        <Route path="/OW1" element={<OW1 />} />
+        <Route path="/M1" element={<M1 />} />
+      </Routes>
+    </Router>
   );
 }
+
+export default App;
